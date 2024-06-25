@@ -48,11 +48,17 @@ const barWidth = computed({
 const barWidthStyle = computed(() => `${barWidth.value}%`)
 
 onMounted(() => {
+  if (scale.value) scale.value.ondragstart = () => false
   if (thumb.value) thumb.value.ondragstart = () => false
 })
 
 function getValue(percent: number) {
-  return Math.round(((props.max - props.min) / 100) * percent + props.min)
+  const value = Math.round(
+    ((props.max - props.min) / 100) * percent + props.min
+  )
+  if (value < props.min) return props.min
+  if (value > props.max) return props.max
+  return value
 }
 function getPercent(value: number) {
   return value / ((props.max - props.min) / 100)
@@ -97,7 +103,7 @@ function moveBar(moveX: number) {
     height: 16px;
     display: flex;
     align-items: center;
-    touch-action: none;
+    
   }
 
   &__bar {
@@ -134,6 +140,7 @@ function moveBar(moveX: number) {
       z-index: 25;
       transition: var(--general-transition);
       pointer-events: none;
+      box-shadow: 0 0 8px rgba(225, 252, 89, 0.6);
     }
   }
   &.grabbed &__thumb::before,
