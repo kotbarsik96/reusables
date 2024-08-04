@@ -5,37 +5,26 @@
     </label>
     <div class="input-wrapper__wrap">
       <Icon v-if="icon" :type="icon" class="input-wrapper__icon" />
-      <component
-        :is="inputComponent"
-        :placeholder="placeholder"
-        :id="id"
-        v-bind="inputProps"
-        @input="onInput"
-      />
+      <slot />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Icon from "@/components/Blocks/Icon.vue"
-import TextInput from "@/components/Blocks/FormElements/TextInput.vue"
-import NumberInput from "@/components/Blocks/FormElements/NumberInput.vue"
 import { computed } from "vue"
 
 const props = withDefaults(
   defineProps<{
+    id?: string
     modelValue?: string | number
-    type?: "text" | "number"
     label?: string
-    id: string
-    inputProps?: { [key: string]: any }
     icon?: string
     iconPos?: "right" | "left"
-    placeholder?: string
-    rounded?: boolean
+    grey?: boolean
+    center?: boolean
   }>(),
   {
-    type: "text",
     iconPos: "right",
   }
 )
@@ -44,44 +33,22 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: typeof props.modelValue): void
 }>()
 
-const inputComponent = computed(() => {
-  switch (props.type) {
-    case "number":
-      return NumberInput
-    case "text":
-    default:
-      return TextInput
-  }
-})
-
 const className = computed(() => {
   return {
     "input-wrapper--icon-left": props.iconPos === "left",
-    "input-wrapper--rounded": props.rounded,
+    "input-wrapper--grey": props.grey,
+    "input-wrapper--center": props.center,
   }
 })
-
-function onInput(value?: string | number) {
-  emit("update:modelValue", value)
-}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input-wrapper {
-  --input-icon-size: 23px;
-  --input-padding-x: 17px;
-  --input-padding-y: 10px;
-  --input-icon-padding: 10px;
-  --input-w-icon-padding: calc(
-    var(--input-padding-x) + var(--input-icon-padding) + var(--input-icon-size)
-  );
-
   @include fRegular(14);
 
   &__label {
     display: inline-block;
     margin-bottom: 5px;
-    @include fRegular(12);
   }
 
   &__wrap {
@@ -90,42 +57,60 @@ function onInput(value?: string | number) {
 
   &__icon {
     position: absolute;
-    right: var(--input-icon-padding);
+    right: 20px;
     top: 50%;
     transform: translateY(-55%);
-    color: var(--purple-dark);
-    font-size: var(--input-icon-size);
-  }
-  &__icon + .input {
-    padding-right: var(--input-w-icon-padding);
-  }
-  &--icon-left &__icon + .input {
-    padding-right: var(--input-padding-x);
-    padding-left: var(--input-w-icon-padding);
+    font-size: 15px;
   }
 
+  :deep(.input) {
+    // стандартные стили автозаполнения нельзя переопределить, поэтому используется хак с transition:
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus {
+      transition-property: background-color, color, border-color !important;
+      transition-duration: 600000s, 600000s, 0.2s !important;
+    }
+
+    border: none;
+    border-radius: 12px;
+    background-color: var(--white);
+    @include fRegular(14);
+    color: var(--black);
+    padding: 11px 20px;
+    outline: none;
+    width: 100%;
+    transition: var(--general-transition);
+  }
+  :deep(.input)::placeholder {
+    color: var(--grey-text-1);
+  }
+  :deep(.input):disabled {
+    opacity: 0.5;
+  }
+  
+  &__icon + :deep(.input) {
+    padding-right: 40px;
+  }
+  &--icon-left &__icon + :deep(.input) {
+    padding-right: 20px;
+    padding-left: 40px;
+  }
   &--icon-left &__icon {
     right: auto;
-    left: var(--input-icon-padding);
+    left: 20px;
   }
 
-  &--rounded .input {
-    border-radius: 23px;
+  &--center :deep(.input) {
+    text-align: center;
   }
-}
-
-.input {
-  border-radius: 9px;
-  border: 1px solid #dadada;
-  background-color: transparent;
-  @include fRegular(14);
-  padding: var(--input-padding-y) var(--input-padding-x);
-  outline: none;
-  width: 100%;
-  color: var(--text-color);
-
-  &::placeholder {
-    color: #b9b9b9;
+  &--grey :deep(.input) {
+    background-color: var(--item-bg);
+  }
+  &--grey :deep(.input)::placeholder {
+    color: var(--grey-icon-1);
+  }
+  &--grey &__icon {
+    color: var(--grey-icon-1);
   }
 }
 </style>
