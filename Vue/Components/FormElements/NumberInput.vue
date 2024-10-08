@@ -1,23 +1,25 @@
 <template>
   <input
-    class="input"
-    type="text"
+    class="input number-input"
     inputmode="numeric"
-    :value="_value"
-    autocomplete="off"
-    @input="onInput"
+    type="text"
+    ref="inputEl"
+    :value="value"
+    @input="onInteraction"
+    @change="onInteraction"
   />
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue"
+import { computed } from 'vue'
 
 const props = withDefaults(
   defineProps<{
     min?: number // минимальное число
     max?: number // максимальное число
     maxFractionDigits?: number // количество символов после точки
-    modelValue?: number | ""
+    modelValue?: number
+    lazy?: boolean
   }>(),
   {
     min: 0,
@@ -26,17 +28,12 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: typeof props.modelValue): void
+  (e: 'update:modelValue', value: typeof props.modelValue): void
 }>()
 
-const _value = computed({
-  get() {
-    return handleInput(props.modelValue)
-  },
-  set(value: typeof props.modelValue) {
-    emit("update:modelValue", handleInput(value))
-  },
-})
+const inputEl = ref<HTMLInputElement>()
+
+const value = ref<string>('')
 
 const _maxFractionDigits = computed(() =>
   props.maxFractionDigits && props.maxFractionDigits > 0
@@ -56,48 +53,95 @@ const symbolsRegexp = computed(() => {
   return /[^0-9]/g
 })
 
+watch(() => props.modelValue, onModelValueChange)
+
+onMounted(() => onModelValueChange())
+
+function onModelValueChange() {
+  let str = props.modelValue?.toString() || ''
+  const handled = handleInput(str, 'change')
+
+  /** если обработанное modelValue отличается от того, что пришло,
+   * обновить modelValue, что запустит onModelValueChange опять
+   */
+  if (handled !== str) {
+    emit('update:modelValue', toNumber(handled))
+    return
+  }
+
+  if (value.value !== str) {
+    value.value = str
+    if (inputEl.value) inputEl.value.value = str
+  }
+}
+
+/** 1. в value записывает строковое значение, modelValue - всегда число
+ * 2. если props.lazy == true, то modelValue обновится на событии change. Иначе - на событии input
+ * 3. value.value обрабатывается вне зависимости от props.lazy
+ */
+function onInteraction(event: Event) {
+  const target = event.target as HTMLInputElement
+  value.value = handleInput(target.value, event.type)
+  target.value = value.value
+  if (!props.lazy || (props.lazy && event.type === 'change'))
+    emit('update:modelValue', toNumber(value.value))
+}
 function toNumber(num?: string) {
-  if (!num) return ""
+  if (!num) return 0
   return _maxFractionDigits.value ? parseFloat(num) : parseInt(num)
 }
-function onInput(event: Event) {
-  const target = event.target as HTMLInputElement
-  const valueString = target.value.trim()
-  // прекратить обработку, если:
-  // инпут начинается с "-", но разрешены отрицательные числа
-  if (valueString.match(/^-$/) && props.min < 0) return
-  // символ оканчивается на ".", но _maxFractionDigits > 0
-  if (valueString.match(/^\d+\.$/) && _maxFractionDigits.value > 0) return
 
-  const value = handleInput(toNumber(valueString))
-  emit("update:modelValue", value)
-  target.value = value.toString()
+/** обработает значение инпута при его изменении.
+ * Пропустит последовательно через каждый вспомогательный метод и вернёт строку
+ */
+function handleInput(value: string, eventType: string): string {
+  let handledValue = value
+
+  handledValue = handleSymbols(handledValue)
+  handledValue = handleMaxFractionDigits(handledValue)
+  if (eventType === 'change') handledValue = handleMinMax(handledValue)
+
+  return handledValue
 }
+/** оставить только разрешенные символы (по symbolsRegexp) */
+function handleSymbols(value: string): string {
+  // убрать точку и всё после неё, если нельзя вводить нецелые числа
+  if (!_maxFractionDigits.value && value.includes('.'))
+    value = value.replace(/\..+/g, '')
 
-// обработает значение инпута при его изменении
-function handleInput(value: typeof props.modelValue): "" | number {
-  if (!value && value !== 0) return ""
+  let handledValue = value.replace(symbolsRegexp.value, '')
+  // посимвольно отфильтрует строку только в случае необходимости
+  if (needToHandleAsArray()) handledValue = handleAsArray()
+  return handledValue
 
-  let result = value
-
-  result = handleSymbols(result) as number
-  if (!result && result !== 0) return ""
-
-  result = handleMaxFractionDigits(result)
-  result = handleMinMax(result)
-
-  return result
+  function handleAsArray() {
+    return handledValue
+      .split('')
+      .filter((s, i, arr) => {
+        if (s === '.' && arr.indexOf(s) !== i) return false
+        if (s === '-' && i !== 0) return false
+        return true
+      })
+      .join('')
+  }
+  function needToHandleAsArray() {
+    /** 1. если строка содержит "-", но не в начале, либо содержит больше одного
+     * 2. если строка содержит больше одной точки
+     */
+    return (
+      (handledValue.includes('-') &&
+        (!handledValue.startsWith('-') ||
+          handledValue.indexOf('-') !== handledValue.lastIndexOf('-'))) ||
+      (handledValue.includes('.') &&
+        handledValue.indexOf('.') !== handledValue.lastIndexOf('.'))
+    )
+  }
 }
-// оставить только разрешенные символы (по symbolsRegexp)
-function handleSymbols(value?: number) {
-  const cleared = value?.toString().replace(symbolsRegexp.value, "")
-  return toNumber(cleared)
-}
-// количество цифр после точки
-function handleMaxFractionDigits(value: number) {
+/** количество цифр после точки */
+function handleMaxFractionDigits(value: string): string {
   if (!_maxFractionDigits.value) return value
 
-  const valueSplit = value.toString().split(".")
+  const valueSplit = value.split('.')
   const integerStr = valueSplit[0]
   const fractionalStr = valueSplit[1]
   const fractionDigitsLength = fractionalStr?.length || 0
@@ -106,30 +150,33 @@ function handleMaxFractionDigits(value: number) {
     // оставить в дробной части только максимально разрешенное количество (.54)
     // (0.548).toFixed(2) покажет 0.55 вместо 0.54; поэтому необходимо указать shortenFractional напрямую
     const shortenFractional = fractionalStr.slice(0, _maxFractionDigits.value)
-    return toNumber(`${integerStr}.${shortenFractional}`) as number
+    return `${integerStr}.${shortenFractional}`
   }
 
   return value
 }
-// не дать ввести меньше props.min и больше props.max
-function handleMinMax(value: number) {
+/** не дать ввести меньше props.min и больше props.max */
+function handleMinMax(value: string): string {
+  let valueNum = toNumber(value)
   let moreThanMin = false
   let lessThenMax = false
 
   if (props.min || props.min === 0) {
-    if (value >= props.min) moreThanMin = true
+    if (valueNum >= props.min) moreThanMin = true
   }
   if (props.max || props.max === 0) {
-    if (value <= props.max) lessThenMax = true
+    if (valueNum <= props.max) lessThenMax = true
   }
 
   if (!moreThanMin && (props.min || props.min === 0))
-    return toNumber(props.min.toFixed(_maxFractionDigits.value)) as number
+    return props.min.toFixed(_maxFractionDigits.value)
   if (!lessThenMax && (props.max || props.max === 0))
-    return toNumber(props.max.toFixed(_maxFractionDigits.value)) as number
+    return props.max.toFixed(_maxFractionDigits.value)
 
   return value
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+@import '~/scss/components/Input';
+</style>
