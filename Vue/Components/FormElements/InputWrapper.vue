@@ -4,51 +4,65 @@
       {{ label }}
     </label>
     <div class="input-wrapper__wrap">
-      <Icon v-if="icon" :type="icon" class="input-wrapper__icon" />
+      <AFIcon v-if="icon" class="input-wrapper__icon" :icon="icon" />
       <slot />
+      <Transition name="fade-in">
+        <span v-if="slots.error" class="input-wrapper__error _error">
+          <slot name="error" />
+        </span>
+      </Transition>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Icon from "@/components/Blocks/Icon.vue"
+import AFIcon from "~/components/Blocks/AFIcon.vue"
 import { computed } from "vue"
+import { useSlots } from "vue"
 
 const props = withDefaults(
   defineProps<{
-    id?: string
-    modelValue?: string | number
     label?: string
-    icon?: string
+    id?: string
+    icon?: string | any
     iconPos?: "right" | "left"
-    grey?: boolean
-    center?: boolean
+    rounded?: boolean
   }>(),
   {
-    iconPos: "right",
+    iconPos: "left",
   }
 )
-
-const emit = defineEmits<{
-  (e: "update:modelValue", value: typeof props.modelValue): void
-}>()
+const slots = useSlots()
 
 const className = computed(() => {
   return {
     "input-wrapper--icon-left": props.iconPos === "left",
-    "input-wrapper--grey": props.grey,
-    "input-wrapper--center": props.center,
+    "input-wrapper--rounded": props.rounded,
   }
 })
 </script>
 
 <style lang="scss" scoped>
 .input-wrapper {
-  @include fRegular(14);
+  --input-icon-size: 1.25rem;
+  --input-padding-x: 1rem;
+  --input-padding-y: 0.6rem;
+  --input-icon-padding: 1rem;
+  --input-w-icon-padding: calc(
+    var(--input-padding-x) + var(--input-icon-padding) +
+      calc(var(--input-icon-size) / 1.5)
+  );
+
+  position: relative;
+  margin-bottom: 0.25rem;
+
+  @include fontSize(14);
 
   &__label {
+    cursor: pointer;
     display: inline-block;
-    margin-bottom: 5px;
+    @include fontSize(12);
+    font-weight: 500;
   }
 
   &__wrap {
@@ -57,60 +71,57 @@ const className = computed(() => {
 
   &__icon {
     position: absolute;
-    right: 20px;
+    right: var(--input-icon-padding);
     top: 50%;
-    transform: translateY(-55%);
-    font-size: 15px;
+    transform: translateY(-50%);
+    color: var(--primary);
+    width: var(--input-icon-size);
+    height: var(--input-icon-size);
+    transition: var(--general-transition);
+  }
+  &__icon + :deep(.input) {
+    padding-right: var(--input-w-icon-padding);
+  }
+  &--icon-left &__icon + :deep(.input) {
+    padding-right: var(--input-padding-x);
+    padding-left: var(--input-w-icon-padding);
+  }
+
+  &--icon-left &__icon {
+    right: auto;
+    left: var(--input-icon-padding);
+  }
+
+  &:has(._error) :deep(.input) {
+    border-color: var(--red);
+  }
+  &:has(._error) &__icon {
+    color: var(--red);
   }
 
   :deep(.input) {
-    // стандартные стили автозаполнения нельзя переопределить, поэтому используется хак с transition:
-    &:-webkit-autofill,
-    &:-webkit-autofill:focus {
-      transition-property: background-color, color, border-color !important;
-      transition-duration: 600000s, 600000s, 0.2s !important;
-    }
-
-    border: none;
-    border-radius: 12px;
-    background-color: var(--white);
-    @include fRegular(14);
-    color: var(--black);
-    padding: 11px 20px;
+    border-radius: 9px;
+    border: 1px solid #dadada;
+    background-color: transparent;
+    padding: var(--input-padding-y) var(--input-padding-x);
     outline: none;
     width: 100%;
+    color: var(--text-color);
     transition: var(--general-transition);
+    @include fontSize(14);
   }
   :deep(.input)::placeholder {
-    color: var(--grey-text-1);
-  }
-  :deep(.input):disabled {
-    opacity: 0.5;
-  }
-  
-  &__icon + :deep(.input) {
-    padding-right: 40px;
-  }
-  &--icon-left &__icon + :deep(.input) {
-    padding-right: 20px;
-    padding-left: 40px;
-  }
-  &--icon-left &__icon {
-    right: auto;
-    left: 20px;
+    color: #b9b9b9;
   }
 
-  &--center :deep(.input) {
-    text-align: center;
+  &--rounded :deep(.input) {
+    border-radius: 23px;
   }
-  &--grey :deep(.input) {
-    background-color: var(--item-bg);
-  }
-  &--grey :deep(.input)::placeholder {
-    color: var(--grey-icon-1);
-  }
-  &--grey &__icon {
-    color: var(--grey-icon-1);
+
+  &__error {
+    position: absolute;
+    top: calc(100% + 0.15rem);
+    left: 0;
   }
 }
 </style>
