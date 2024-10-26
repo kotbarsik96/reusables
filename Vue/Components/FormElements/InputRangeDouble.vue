@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { getCoords } from '~/utils/getCoords'
+import { computed, onMounted, ref } from "vue"
+import { getCoords } from "~/utils/getCoords"
 
 const props = defineProps<{
   modelValue: number[]
@@ -35,7 +35,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (emit: 'update:modelValue', value: number[]): void
+  (emit: "update:modelValue", value: number[]): void
 }>()
 
 const scale = ref<HTMLElement>()
@@ -47,7 +47,7 @@ const _valueMin = computed({
     return props.modelValue[0]
   },
   set(value) {
-    emit('update:modelValue', [handleValue(value), _valueMax.value])
+    emit("update:modelValue", [handleValue(value), _valueMax.value])
   },
 })
 const _valueMax = computed({
@@ -55,7 +55,7 @@ const _valueMax = computed({
     return props.modelValue[1]
   },
   set(value) {
-    emit('update:modelValue', [_valueMin.value, handleValue(value)])
+    emit("update:modelValue", [_valueMin.value, handleValue(value)])
   },
 })
 /** числовое значение 100% */
@@ -117,11 +117,11 @@ onMounted(() => {
   if (thumbRight.value) thumbRight.value.ondragstart = () => false
 
   onWindowResize()
-  window.addEventListener('resize', onWindowResize)
+  window.addEventListener("resize", onWindowResize)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize)
+  window.removeEventListener("resize", onWindowResize)
 })
 
 function handleValue(value: number) {
@@ -136,35 +136,29 @@ function updateScaleWidth() {
   else scaleWidth.value = 0
 }
 
-function getClosestThumb(percent: number): 'left' | 'right' {
-  let closestThumb: 'left' | 'right' = 'left'
+function getClosestThumb(coord: number): "left" | "right" {
+  let closestThumb: "left" | "right" = "left"
+  const percent = coord / (scaleWidth.value / 100)
+
   if (
     thumbPositions.value.right - percent <=
     percent - thumbPositions.value.left
   )
-    closestThumb = 'right'
+    closestThumb = "right"
 
   return closestThumb
 }
-function getPositionData(eventPosition: number) {
-  let percent = eventPosition / (scaleWidth.value / 100)
-  const closestThumb = getClosestThumb(percent)
-
-  return { percent, closestThumb }
-}
-function moveThumb(
-  closestThumb: 'left' | 'right',
-  eventPositionPercent: number
-) {
-  let nextValue = (coverage.value / 100) * eventPositionPercent
+function moveThumb(thumbToMove: "left" | "right", toCoord: number) {
+  const percent = toCoord / (scaleWidth.value / 100) + shift.value
+  let nextValue = (coverage.value / 100) * percent
   if (nextValue < props.min) nextValue = props.min
   if (nextValue > props.max) nextValue = props.max
 
-  switch (closestThumb) {
-    case 'left':
+  switch (thumbToMove) {
+    case "left":
       _valueMin.value = nextValue
       break
-    case 'right':
+    case "right":
       _valueMax.value = nextValue
       break
   }
@@ -175,29 +169,25 @@ function onPointerdown(event: PointerEvent) {
   event.preventDefault()
 
   const startPosition = event.clientX - getCoords(scale.value).left
-  const { percent, closestThumb } = getPositionData(startPosition)
-  grabbed.value[closestThumb] = true
+  const closestThumb = getClosestThumb(startPosition)
 
-  document.addEventListener('pointermove', onPointermove)
-  document.addEventListener('pointerup', onPointerup)
+  moveThumb(closestThumb, startPosition)
+  document.addEventListener("pointerup", onPointerUp)
+  document.addEventListener("pointermove", onPointerMove)
 
-  moveThumb(closestThumb, percent)
-
-  function onPointermove(moveEvent: PointerEvent) {
+  function onPointerMove(moveEvent: PointerEvent) {
     if (!scale.value) return
 
-    const movePosition = moveEvent.clientX - getCoords(scale.value).left
-    const { percent: movePercent } = getPositionData(movePosition)
-    moveThumb(closestThumb, movePercent)
+    const nextPosition = moveEvent.clientX - getCoords(scale.value).left
+    moveThumb(closestThumb, nextPosition)
   }
-  function onPointerup() {
-    document.removeEventListener('pointermove', onPointermove)
-    document.removeEventListener('pointerup', onPointerup)
-    grabbed.value[closestThumb] = false
+  function onPointerUp() {
+    document.removeEventListener("pointerup", onPointerUp)
+    document.removeEventListener("pointermove", onPointerMove)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~/scss/components/_InputRange';
+@import "~/scss/components/_InputRange";
 </style>
