@@ -1,0 +1,4 @@
+:root {
+  --container-padding-x: 15px;
+  --container-max-width: calc(var(--container-padding-x) * 2 + 1300px);
+}

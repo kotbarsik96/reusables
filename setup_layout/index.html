@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/variables/colors.css" />
+    <link rel="stylesheet" href="/css/variables/fonts.css" />
+    <link rel="stylesheet" href="/css/variables/sizes.css" />
+    <link rel="stylesheet" href="/css/variables/transition.css" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/ui.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/img/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="/assets/img/favicon/favicon-48x48.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/img/favicon/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="/assets/img/favicon/android-chrome-512x512.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/img/favicon/apple-touch-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/img/favicon/apple-touch-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/img/favicon/apple-touch-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/img/favicon/apple-touch-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/img/favicon/apple-touch-icon-180x180.png"
+    />
+    <meta
+      name="msapplication-TileImage"
+      content="/assets/img/favicon/mstile-150x150.png"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts -->
+    <style>
+      @font-face {
+        font-family: 'SofiaSans Fallback: Arial';
+        src: local('Arial'), local('ArialMT');
+        ascent-override: 93.4252%;
+        descent-override: 30.2616%;
+        line-gap-override: 0%;
+        size-adjust: 98.4745%;
+      }
+      @font-face {
+        font-family: 'SofiaSans Fallback: Helvetica';
+        src: local('Helvetica');
+        ascent-override: 93.4252%;
+        descent-override: 30.2616%;
+        line-gap-override: 0%;
+        size-adjust: 98.4745%;
+      }
+      @font-face {
+        font-family: 'SofiaSans';
+        font-style: normal;
+        font-weight: 100 900;
+        font-stretch: 25% 100%;
+        font-display: swap;
+        src: url('/assets/fonts/SofiaSans/SofiaSans-BasicLatin.woff2')
+            format('woff2-variations'),
+          url('/assets/fonts/SofiaSans/SofiaSans-BasicLatin.woff')
+            format('woff-variations'),
+          url('/assets/fonts/SofiaSans/SofiaSans-BasicLatin.ttf')
+            format('truetype-variations');
+        unicode-range: U+0000-007F;
+      }
+    </style>
+    <title>Crypto News</title>
+  </head>
+  <body>
+    <div class="_wrapper">
+      <header class="header" data-el="header">
+        <div class="_container">
+          <nav class="nav-main">
+            <ul>
+              <li>
+                <a href="#">Newsletters</a>
+              </li>
+              <li>
+                <a href="#">Videos</a>
+              </li>
+              <li>
+                <a href="#">Club</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="logo-wrapper">
+            <svg>
+              <use xlink:href="/assets/icons/logo.svg#icon-logo"></use>
+            </svg>
+          </div>
+          <div class="buttons">
+            <a class="button --adaptive" href="#">
+              <span class="text">Log in</span>
+              <svg width="24" height="24">
+                <use xlink:href="/assets/icons/user.svg#icon-user"></use>
+              </svg>
+            </a>
+            <a class="button --adaptive" href="#">
+              <span class="text">Sign up</span>
+              <svg width="24" height="24">
+                <use
+                  xlink:href="/assets/icons/user-plus.svg#icon-user-plus"
+                ></use>
+              </svg>
+            </a>
+            <button
+              class="button --round"
+              type="button"
+              aria-label="Open menu"
+              data-child="open"
+            >
+              <svg>
+                <use xlink:href="/assets/icons/menu.svg#icon-menu"></use>
+              </svg>
+            </button>
+          </div>
+          <nav class="nav-secondary">
+            <ul>
+              <li>
+                <a href="#">Articles</a>
+              </li>
+              <li>
+                <a href="#">Categories</a>
+              </li>
+              <li>
+                <a href="#">Deals</a>
+              </li>
+              <li>
+                <a href="#">Merch Store</a>
+              </li>
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="menu">
+            <div class="menu-body" data-child="menu-body">
+              <button
+                class="close-button button --round"
+                type="button"
+                aria-label="Close menu"
+                data-child="close"
+              >
+                <svg>
+                  <use xlink:href="/assets/icons/close.svg#icon-close"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="_content"></div>
+      <footer class="footer"></footer>
+    </div>
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>

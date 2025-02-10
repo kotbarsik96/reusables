@@ -1,0 +1,14 @@
+:root {
+  --font-sofia-sans: 'SofiaSans', 'SofiaSans Fallback: Arial',
+    'SofiaSans Fallback: Helvetica', sans-serif;
+
+  --fz-h1: 800 2.75rem/120% var(--font-sofia-sans);
+  --fz-h2: 800 2.25rem/130% var(--font-sofia-sans);
+  --fz-h3: 800 1.875rem/130% var(--font-sofia-sans);
+  --fz-h4: 700 1.5rem/130% var(--font-sofia-sans);
+
+  --fz-medium-12: 500 0.875rem/130% var(--font-sofia-sans);
+  --fz-medium-14: 500 0.875rem/130% var(--font-sofia-sans);
+  --fz-medium-16: 500 1rem/130% var(--font-sofia-sans);
+  --fz-medium-18: 500 1.25rem/130% var(--font-sofia-sans);
+}

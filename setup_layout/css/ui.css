@@ -1,0 +1,120 @@
+.button {
+  --b-radius: 30px;
+
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: var(--b-radius);
+  padding: 0.75rem 1.25rem;
+  color: var(--white);
+  font: var(--fz-medium-16);
+  position: relative;
+  transition: var(--general-transition);
+
+  > * {
+    position: relative;
+    z-index: 10;
+  }
+
+  > svg {
+    width: 1.25rem;
+    height: 1.25rem;
+
+    use {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: var(--b-radius);
+    background: var(--linear-green);
+    transition: var(--general-transition);
+  }
+
+  &:hover {
+    &::before {
+      opacity: 0.7;
+    }
+  }
+
+  &:active {
+    &::before {
+      opacity: 0.5;
+    }
+  }
+
+  &:disabled {
+    &::before {
+      opacity: 0.2;
+    }
+  }
+
+  &.--no-gradient {
+    &::before {
+      background: var(--red);
+    }
+  }
+
+  &.--secondary {
+    --b-radius: 25px;
+
+    color: var(--black);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: var(--white);
+      border-radius: var(--b-radius);
+      margin: 1px;
+    }
+  }
+
+  &.--round {
+    --b-radius: 50%;
+
+    padding: 0;
+    width: max(2.5rem, 40px);
+    height: max(2.5rem, 40px);
+  }
+
+  &:disabled {
+    pointer-events: none;
+
+    > * {
+      opacity: 0.3;
+    }
+
+    &::before {
+      opacity: 0.3;
+    }
+  }
+
+  @media (max-width: 619px) {
+    &.--adaptive {
+      --b-radius: 50%;
+
+      padding: 0;
+      width: max(2.5rem, 40px);
+      height: max(2.5rem, 40px);
+
+      .text {
+        display: none;
+      }
+
+      svg {
+        width: max(1rem, 16px);
+        height: max(1rem, 16px);
+      }
+    }
+  }
+}
