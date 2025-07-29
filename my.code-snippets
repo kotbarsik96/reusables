@@ -78,6 +78,7 @@
       "</script>",
       "",
       "<style lang=\"scss\" scoped>",
+      "@use '/css/mixins/mixins.scss';",
       "",
       "</style>"
     ]
@@ -96,7 +97,7 @@
   "Include adaptive": {
     "scope": "scss",
     "prefix": "incad",
-    "body": "@include adaptive($1){}"
+    "body": "@include mixins.adaptive($1){}"
   },
   "Flex-wrap: wrap": {
     "scope": "css,scss",
@@ -106,17 +107,79 @@
   "Media: max-width": {
     "scope": "css,scss",
     "prefix": "mdmx",
-    "body": "@media (max-width: $1px){$2}"
+    "body": "@media screen and (max-width: $1px){$2}"
   },
   "Media: min-width": {
     "scope": "css,scss",
     "prefix": "mdmn",
-    "body": "@media (min-width: $1px){$2}"
+    "body": "@media screen and (min-width: $1px){$2}"
+  },
+  "Media: min-width (360px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn360",
+    "body": "@media screen and (min-width: 23rem){$2}"
+  },
+  "Media: min-width (480px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn480",
+    "body": "@media screen and (min-width: 30rem){$2}"
+  },
+  "Media: min-width (620px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn620",
+    "body": "@media screen and (min-width: 39rem){$2}"
+  },
+  "Media: min-width (770px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn770",
+    "body": "@media screen and (min-width: 48rem){$2}"
+  },
+  "Media: min-width (992px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn992",
+    "body": "@media screen and (min-width: 62rem){$2}"
+  },
+  "Media: min-width (1200px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn1200",
+    "body": "@media screen and (min-width: 75rem){$2}"
+  },
+  "Media: min-width (1400px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn1400",
+    "body": "@media screen and (min-width: 88rem){$2}"
+  },
+  "Media: min-width (1600px)": {
+    "scope": "css,scss",
+    "prefix": "mdmn1600",
+    "body": "@media screen and (min-width: 100rem){$2}"
   },
   "@include breakpoint.xxx()": {
     "scope": "css,scss",
     "prefix": "incbreak",
     "body": "@include breakpoints.$1{}"
+  },
+  "Vue transition": {
+    "scope": "css,scss",
+    "prefix": "vuetransition",
+    "body": [
+      ".$1 {",
+      "\t&-enter-active,",
+      "\t&-leave-active{",
+      "\t\ttransition: var(--general-transition);",
+      "\t}",
+      "",
+      "\t&-enter-from,",
+      "\t&-leave-to{",
+      "",
+      "\t}",
+      "",
+      "\t&-enter-to,",
+      "\t&-leave-from{",
+      "",
+      "\t}",
+      "}"
+    ]
   },
   /*===================== PHP =====================*/
   "Laravel Log": {
