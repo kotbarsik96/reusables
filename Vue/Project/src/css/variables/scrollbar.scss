@@ -1,0 +1,14 @@
+:root {
+  --scrollbar-size: 4px;
+  --scrollbar-multiplier: 3;
+  --scrollbar-wider: calc(var(--scrollbar-size) * var(--scrollbar-multiplier));
+  --scrollbar-space: calc(var(--scrollbar-wider) - var(--scrollbar-size));
+  --scrollbar-with-space: calc(var(--scrollbar-size) + var(--scrollbar-space));
+  --scrollbar-color: var(--gray-100);
+  --scrollbar-thumb-color: var(--primary-1);
+
+  @supports (-moz-appearance: none) {
+    --scrollbar-size: 0px;
+    --scrollbar-multiplier: 0;
+  }
+}

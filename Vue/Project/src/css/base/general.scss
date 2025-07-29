@@ -1,0 +1,203 @@
+@use '@/css/mixins/mixins.scss';
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-inter);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(0.875em, 0.5svw + 0.6em, 1.15em);
+  font-stretch: 100%;
+  line-height: 130%;
+  scroll-behavior: smooth;
+  letter-spacing: -0.05cap;
+  @include mixins.scrollbar();
+}
+
+._no-scroll,
+body._no-scroll,
+body._scroll-element._no-scroll {
+  overflow: hidden;
+}
+
+._container {
+  container-name: _container;
+  container-type: inline-size;
+  margin: 0 auto;
+  padding-inline: var(--container-x-padding);
+  width: 100%;
+  max-width: calc(var(--container-width) + var(--container-x-padding) * 2);
+  font-size: 1rem;
+}
+
+._link {
+  --color: var(--primary-1);
+
+  position: relative;
+  color: var(--color);
+  transition: var(--general-transition);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    background-color: var(--color);
+    height: 1px;
+    transition: var(--general-transition);
+  }
+
+  &:hover {
+    --color: var(--primary-1-1);
+
+    &::after {
+      right: 0;
+    }
+  }
+}
+
+._logo {
+  svg {
+    width: 2.5rem;
+    aspect-ratio: 1;
+  }
+}
+
+._page {
+  padding-block: var(--page-padding-block);
+}
+
+._page-body {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+
+  &.--full {
+    min-height: max(500px, var(--min-page-fullheight));
+  }
+
+  &.--grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+}
+
+._fetching-screen {
+  position: absolute;
+  z-index: 500;
+  inset: 0;
+  background-color: oklch(1 0 0 / 0.7);
+}
+
+._list-wrap {
+  width: 100%;
+  overflow: auto;
+  box-shadow: var(--shadow-general);
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+
+  ._list-block {
+    padding: 1rem;
+  }
+
+  .pagination {
+    margin-block: 1rem;
+  }
+}
+
+// Font-Weight
+$fontWeights: 400, 500, 600, 700, 800;
+@each $weight in $fontWeights {
+  ._fw-#{$weight} {
+    font-weight: $weight;
+  }
+}
+
+// FLEXBOX
+._flex {
+  display: flex;
+}
+
+._flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+._flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+$flexAlignItems: flex-start, center, flex-end, stretch;
+@each $item in $flexAlignItems {
+  ._items-#{$item} {
+    align-items: $item;
+  }
+}
+
+$flexJustifyContent: flex-start, center, flex-end, space-between, space-around, space-evenly;
+@each $item in $flexAlignItems {
+  ._justify-#{$item} {
+    justify-content: $item;
+  }
+}
+
+$gaps: 5, 10, 15, 20;
+@each $item in $gaps {
+  ._row-gap-#{$item} {
+    row-gap: calc(#{$item} / 16 * 1em);
+  }
+  ._column-gap-#{$item} {
+    column-gap: calc(#{$item} / 16 * 1em);
+  }
+  ._gap-#{$item} {
+    gap: calc(#{$item} / 16 * 1em);
+  }
+}
+
+$margins: 0, 2, 4, 6, 8, 10;
+@each $margin in $margins {
+  ._mt-#{$margin} {
+    margin-block-start: calc(#{$margin} / 4 * 1em);
+  }
+
+  ._mb-#{$margin} {
+    margin-block-end: calc(#{$margin} / 4 * 1em);
+  }
+
+  ._mr-#{$margin} {
+    margin-inline-end: calc(#{$margin} / 4 * 1em);
+  }
+
+  ._ml-#{$margin} {
+    margin-inline-start: calc(#{$margin} / 4 * 1em);
+  }
+
+  ._mx-#{$margin} {
+    margin-inline: calc(#{$margin} / 4 * 1em);
+  }
+
+  ._my-#{$margin} {
+    margin-block: calc(#{$margin} / 4 * 1em);
+  }
+}
+
+$grayColors: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+@each $item in $grayColors {
+  ._text-gray-#{$item} {
+    color: var(--gray-#{$item});
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::after,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important; // если поставить 0.1ms, будут дергаться скроллбары при наведении
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,108 @@
+@use '@/css/mixins/mixins.scss';
+
+dialog {
+  padding: 0;
+  border-width: 0;
+  margin: auto;
+  outline: none;
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+  animation: dialogHide 0.15s ease-out;
+  position: fixed;
+  inset: 0;
+
+  &:has(.close-wrapper)[open] {
+    flex-direction: row;
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  &[open] {
+    display: flex;
+    flex-direction: column;
+    pointer-events: all;
+    opacity: 1;
+    transform: scale(1);
+    animation: dialogOpen 0.15s ease-out;
+
+    &::backdrop {
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .close-wrapper {
+    align-self: flex-start;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1px;
+    margin-left: 1rem;
+    order: 2;
+  }
+
+  .close {
+    width: max(32px, 2rem);
+    height: max(32px, 2rem);
+
+    :deep(svg) {
+      width: max(24px, 1.5rem);
+      height: max(24px, 1.5rem);
+      color: var(--gray-100);
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+      border-color: var(--white);
+    }
+  }
+
+  .dialog-body {
+    flex: 1 1 auto;
+
+    > :deep(img) {
+      max-height: 86vh;
+      max-width: 86vw;
+      cursor: zoom-out;
+      border: 4px solid var(--white);
+    }
+  }
+
+  @keyframes dialogOpen {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+      display: none;
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      display: flex;
+    }
+  }
+  @keyframes dialogHide {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+      display: flex;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.5);
+      display: none;
+    }
+  }
+
+  @include mixins.adaptive(tablet-big) {
+    &:has(.close-wrapper)[open] {
+      flex-direction: column-reverse;
+    }
+
+    .close-wrapper {
+      align-self: flex-end;
+      margin-left: 0;
+      margin-bottom: 0.625rem;
+    }
+  }
+}

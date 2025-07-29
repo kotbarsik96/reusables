@@ -1,0 +1,199 @@
+@use '@/assets/css/mixins/animation-styles.scss';
+
+.ti-wrapper {
+  --error-height: 1.3em;
+  --padding-inline: 1rem;
+  --b-radius: 10px;
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+
+  .label {
+    cursor: pointer;
+    display: inline-block;
+    padding-inline-start: 1.25rem;
+    padding-block-end: 0.32rem;
+    color: var(--gray-400);
+    font: var(--text-input-label-medium);
+    align-self: flex-start;
+  }
+
+  .input-area {
+    position: relative;
+    border-radius: var(--b-radius);
+    background: var(--gray-50);
+    padding-inline: var(--padding-inline);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--general-transition);
+
+    :deep(svg) {
+      flex-shrink: 0;
+      width: 1.5rem;
+      aspect-ratio: 1;
+      color: var(--gray-400);
+      transition: var(--general-transition);
+    }
+
+    :deep(input) {
+      flex: 1 1 auto;
+      align-self: stretch;
+      padding-block: 0.625rem;
+      padding-inline: 0;
+      color: var(--gray-800);
+      font: var(--text-input-inside-medium);
+      text-align: left;
+      background: transparent;
+      border: 0px;
+    }
+
+    :deep(input::placeholder) {
+      color: var(--gray-300);
+      transition: var(--general-transition);
+    }
+
+    .clear-btn,
+    .chevron-icon {
+      flex-shrink: 0;
+      margin-inline-start: 0.5rem;
+      width: 1.25rem;
+      aspect-ratio: 1;
+      transition: var(--general-transition);
+      color: var(--gray-800);
+    }
+
+    .clear-btn {
+      display: none;
+      opacity: 0;
+      background-color: var(--secondary-solid-1);
+      border-radius: 10px;
+      animation: clear_hide 0.25s ease-in-out;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        color: var(--gray-800);
+        transform: translateY(0.11rem);
+      }
+    }
+  }
+
+  .error {
+    min-height: 0;
+    margin-block-start: 0.32rem;
+    padding-inline-start: 1rem;
+    color: var(--error-red);
+    font: var(--text-descr-small-ultra);
+    @include animation-styles.hidden;
+    animation: error_disappear 0.25s ease-in-out;
+  }
+
+  .input-area:hover {
+    background: var(--gray-100);
+
+    :deep(input::placeholder) {
+      color: var(--gray-600);
+    }
+  }
+
+  // стандартные стили автозаполнения нельзя переопределить, поэтому используется хак с transition:
+  :deep(input:-webkit-autofill),
+  :deep(input:-webkit-autofill:focus) {
+    transition-property: background-color, color, border-color !important;
+    transition-duration: 600000s, 600000s, 0.2s !important;
+  }
+
+  .input-area:has(input:focus) {
+    box-shadow: var(--input-shadow);
+    background: var(--gray-50);
+
+    > :deep(svg) {
+      color: var(--primary-1);
+    }
+  }
+
+  &.--has-input .input-area {
+    > :deep(svg) {
+      color: var(--primary-1);
+    }
+
+    .clear-btn {
+      display: block;
+      opacity: 1;
+      animation-name: clear_show;
+    }
+  }
+
+  &.--has-error {
+    .input-area {
+      background: var(--error-4);
+
+      > :deep(svg) {
+        color: var(--error-red);
+      }
+    }
+
+    .error {
+      min-height: var(--error-height);
+      @include animation-styles.shown;
+      animation-name: error_appear;
+    }
+  }
+
+  .input-area:has(input:disabled) {
+    pointer-events: none;
+    background: var(--gray-50);
+
+    > :deep(svg) {
+      color: var(--gray-300);
+    }
+
+    :deep(input::placeholder) {
+      color: var(--gray-600);
+    }
+  }
+}
+
+@keyframes error_appear {
+  0% {
+    min-height: 0;
+    @include animation-styles.hidden;
+  }
+  100% {
+    min-height: var(--error-height);
+    @include animation-styles.shown;
+  }
+}
+@keyframes error_disappear {
+  0% {
+    min-height: var(--error-height);
+    @include animation-styles.shown;
+  }
+  100% {
+    min-height: 0;
+    @include animation-styles.hidden;
+  }
+}
+
+@keyframes clear_hide {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+@keyframes clear_show {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
+}

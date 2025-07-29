@@ -1,0 +1,86 @@
+@use '@/css/mixins/mixins.scss';
+
+/** переменные для разных жирностей нужны для корректных fallback'ов
+
+  * в случае, когда среди переменных --text-name нет нужной и приходится указывать шрифты вручную, необходимо указывать в таком порядке:
+  * - font-size: 4rem;
+  * - font-weight: 800; должен совпадать с жирностью в font-family для корректного указания fallback'ов
+  * - font-family: var(--font-inter-800);
+*/
+
+:root {
+  --font-inter:
+    'Inter', 'Inter Fallback: Helvetica', 'Inter Fallback: Arial', Helvetica, Arial, sans-serif;
+  --font-inter-500:
+    'Inter', 'Inter Fallback: Helvetica 500', 'Inter Fallback: Arial 500', Helvetica, Arial,
+    sans-serif;
+  --font-inter-600:
+    'Inter', 'Inter Fallback: Helvetica 600', 'Inter Fallback: Arial 600', Helvetica, Arial,
+    sans-serif;
+  --font-inter-700:
+    'Inter', 'Inter Fallback: Helvetica 700', 'Inter Fallback: Arial 700', Helvetica, Arial,
+    sans-serif;
+  --font-inter-800:
+    'Inter', 'Inter Fallback: Helvetica 800', 'Inter Fallback: Arial 800', Helvetica, Arial,
+    sans-serif;
+  --font-inter-900:
+    'Inter', 'Inter Fallback: Helvetica 900', 'Inter Fallback: Arial 900', Helvetica, Arial,
+    sans-serif;
+
+  /* font-sizes */
+  // titles
+  --text-h1: 700 2rem/130% var(--font-inter-700);
+  --text-h2: 700 1.5rem/130% var(--font-inter-700);
+  --text-h3: 700 1.125rem/130% var(--font-inter-700);
+  --text-h4: 500 1rem/130% var(--font-inter-500);
+
+  // description
+  --text-descr-big: 700 1.125rem/130% var(--font-inter-700);
+  --text-descr-medium: 600 1rem/130% var(--font-inter-600);
+  --text-descr-medium-2: 700 1rem/130% var(--font-inter-700);
+  --text-descr-small: 500 1rem/130% var(--font-inter);
+  --text-descr-small-2: 700 0.9rem/130% var(--font-inter-700);
+  --text-descr-small-ultra: 400 0.9rem/130% var(--font-inter);
+
+  // paragraph
+  --text-p1_big: 400 1rem/135% var(--font-inter);
+  --text-p1: 400 1rem/140% var(--font-inter);
+  --text-p1_bold: 700 1rem/140% var(--font-inter-700);
+  --text-p_quote: italic 600 1rem/140% var(--font-inter-600);
+  --text-p2: 400 0.9rem/140% var(--font-inter);
+
+  // buttons
+  --text-button-big: 600 1rem/130% var(--font-inter-600);
+  --text-button-medium: 600 1rem/130% var(--font-inter-600);
+  --text-button-small: 600 0.9rem/130% var(--font-inter-600);
+  --text-button-ultra-small: 600 0.9rem/130% var(--font-inter-600);
+
+  // inputs
+  --text-input-inside-mega: 600 1.5rem/130% var(--font-inter-600);
+  --text-input-inside-big: 400 1.125rem/130% var(--font-inter);
+  --text-input-inside-medium: 400 1rem/130% var(--font-inter);
+  --text-input-inside-small: 400 1rem/130% var(--font-inter);
+
+  --text-input-label-big: 600 1rem/130% var(--font-inter-600);
+  --text-input-label-medium: 600 1rem/130% var(--font-inter-600);
+  --text-input-label-small: 600 0.9rem/130% var(--font-inter-600);
+
+  // links
+  --text-link-big: 500 1rem/130% var(--font-inter-500);
+  --text-link-medium: 400 1rem/130% var(--font-inter);
+  --text-link-small: 400 0.9rem/130% var(--font-inter);
+
+  @include mixins.adaptive(phone-big-min) {
+    // titles
+    --text-h1: 700 3rem/130% var(--font-inter-700);
+    --text-h2: 700 2rem/130% var(--font-inter-700);
+    --text-h3: 700 1.5rem/130% var(--font-inter-700);
+    --text-h4: 500 1.125rem/130% var(--font-inter);
+
+    // buttons
+    --text-button-big: 700 1.75rem/130% var(--font-inter-700);
+    --text-button-medium: 700 1.375rem/130% var(--font-inter-700);
+    --text-button-small: 600 1rem/130% var(--font-inter-600);
+    --text-button-ultra-small: 600 0.9rem/130% var(--font-inter-600);
+  }
+}

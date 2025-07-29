@@ -1,0 +1,20 @@
+@use '@/css/mixins/mixins.scss';
+
+:root {
+  --header-height: 4.5rem;
+
+  --container-width: 1300px;
+  --container-x-padding: 1.25rem;
+
+  --page-padding-block: 2rem;
+  --min-page-fullheight: calc(100vh - var(--header-height) - var(--page-padding-block) * 2);
+
+  --border-radius: 8px;
+
+  // @include mixins.adaptive(phone-big-min) {
+  //   --header-height: 4.5rem;
+  // }
+
+  @include mixins.adaptive(tablet-big-min) {
+  }
+}

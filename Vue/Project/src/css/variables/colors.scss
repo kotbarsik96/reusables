@@ -1,0 +1,116 @@
+:root {
+  --primary-1: #0babff;
+  --primary-1-1: #0989cc;
+  --primary-1-2: #076799;
+  --primary-2: #667dff;
+  --primary-2-1: #5264cc;
+
+  --secondary-1: #4d414b;
+  --secondary-solid-1: #e5f6ff;
+  --secondary-solid-1-2: #076799;
+  --secondary-solid-2: #d9f2ff;
+  --secondary-solid-3: #b2e5ff;
+
+  --background: #f7f9fa;
+
+  --black: #000000;
+  --white: #ffffff;
+  --gray-900: #171c1f;
+  --gray-800: #343a3d;
+  --gray-700: #53595c;
+  --gray-600: #6f777a;
+  --gray-500: #858b8f;
+  --gray-400: #9ba0a3;
+  --gray-300: #c2c9cc;
+  --gray-200: #e8eaeb;
+  --gray-100: #f2f4f5;
+  --gray-50: #f9fbfc;
+  --gray-25: #fcfeff;
+
+  --system-primary: #eaffe5;
+  --system-primary-2: #d5ffcc;
+  --system-1: #f2bb06;
+
+  --error-red: #ff3838;
+  --error-2: #ff6666;
+  --error-3: #ff9999;
+  --error-4: #fff7f7;
+
+  --success-green: #16f593;
+  --success-2: #70cca4;
+  --success-3: #8ae5bd;
+  --success-4: #daf2e8;
+
+  --status-1: #b08787;
+  --status-2: #fb6a6a;
+  --status-3: #ffb054;
+  --status-4: #9bca37;
+  --status-5: #54ca37;
+
+  --tags-1: #fff5e5;
+  --tags-2: #fff7f2;
+  --tags-3: #fbffe5;
+  --tags-4: #f8fff2;
+  --tags-5: #e5fff2;
+  --tags-6: #e5ffff;
+  --tags-7: #e5f2ff;
+  --tags-8: #e5e5ff;
+  --tags-9: #f2e5ff;
+
+  --shadow-general: 0px 2px 5px oklch(30.541% 0.01623 17.961 / 0.25);
+}
+
+$primaries: '1', '1-1', '1-2', '2';
+@each $primary in $primaries {
+  ._text-primary-#{$primary} {
+    color: var(--primary-#{$primary});
+  }
+}
+
+$secondaries: 1, 'solid-1', 'solid-1-2', 'solid-2', 'solid-3';
+@each $secondary in $secondaries {
+  ._text-secondary-#{$secondary} {
+    color: var(--secondary-#{$secondary});
+  }
+}
+
+$grays: 900, 800, 700, 600, 500, 400, 300, 200, 100, 50, 25;
+@each $gray in $grays {
+  ._text-#{$gray} {
+    color: var(--gray-#{$gray});
+  }
+}
+
+$errors: 'red', 2, 3, 4;
+@each $err in $errors {
+  ._text-error-#{$err} {
+    color: var(--error-#{$err});
+  }
+}
+
+$successes: 'green', 2, 3, 4;
+@each $s in $successes {
+  ._text-success-#{$s} {
+    color: var(--success-#{$s});
+  }
+}
+
+$statuses: 1, 2, 3, 4, 5;
+@each $st in $statuses {
+  ._text-status-#{$st} {
+    color: var(--status-#{$st});
+  }
+}
+
+@for $i from 1 through 9 {
+  ._text-tag-#{$i} {
+    color: var(--tags-#{$i});
+  }
+}
+
+$greeds: 'panic', 'fear', 'neutral', 'greed', 'extreme-greed';
+@each $greed in $greeds {
+  ._text-greed-#{$greed} {
+    color: var(--greed-#{$greed});
+  }
+}

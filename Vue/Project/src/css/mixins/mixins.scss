@@ -1,0 +1,239 @@
+@use 'sass:map';
+
+@mixin adaptive($size) {
+  @if $size == phone-small-min {
+    @media screen and (min-width: 23rem) {
+      // 360px
+      @content;
+    }
+  }
+  @if $size == phone-min {
+    @media screen and (min-width: 30rem) {
+      // 480px
+      @content;
+    }
+  } @else if $size == phone-big-min {
+    @media screen and (min-width: 39rem) {
+      // 620px
+      @content;
+    }
+  } @else if $size == tablet-small-min {
+    @media screen and (min-width: 48rem) {
+      // 770px
+      @content;
+    }
+  } @else if $size == tablet-big-min {
+    @media screen and (min-width: 62rem) {
+      // 992px
+      @content;
+    }
+  } @else if $size == desktop-small-min {
+    @media screen and (min-width: 75rem) {
+      // 1200px
+      @content;
+    }
+  } @else if $size == desktop-mid-min {
+    @media screen and (min-width: 88rem) {
+      // 1400px
+      @content;
+    }
+  } @else if $size == desktop-mid-min-2 {
+    @media screen and (min-width: 100rem) {
+      @content;
+    }
+  }
+  // учитывает мобилки шириной до 620px + смену ориентации таких мобилок
+  @else if $size == phone-and-rotation {
+    @media screen and (orientation: landscape) and (max-height: 620px) and (max-width: 992px),
+      screen and (orientation: portrait) and (max-width: 620px) {
+      @content;
+    }
+  }
+}
+
+@mixin lines($count) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+  line-clamp: $count;
+}
+
+@mixin gradient($color) {
+  @if $color == first {
+    background: linear-gradient(180deg, #27415e 0%, rgba(39, 65, 94, 0) 100%) border-box;
+    border: 1px solid transparent;
+  } @else if $color == first-mod {
+    background: linear-gradient(180deg, #27415e 0%, rgba(39, 65, 94, 0.4) 100%) border-box;
+    border: 1px solid transparent;
+  } @else if $color == second {
+    border: 1px solid transparent;
+    background: linear-gradient(180deg, rgba(57, 83, 112, 0.21) 0%, #395370 100%) border-box;
+  } @else if $color == input {
+    background: linear-gradient(180deg, #6b85a3 0%, rgba(107, 133, 163, 0) 100%) border-box;
+    border: 1px solid transparent;
+  }
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@mixin textStroke($width, $color) {
+  text-shadow:
+    1px 1px $width $color,
+    -1px 1px $width $color,
+    1px -1px $width $color,
+    -1px -1px $width $color;
+}
+
+@mixin text-gradient($gradient) {
+  background-image: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+    background-color: var(--scrollbar-color);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--scrollbar-thumb-color);
+  }
+}
+
+@mixin scrollbarHover($direction: 'vertical') {
+  @media (pointer: fine) {
+    @if ($direction == 'vertical') {
+      padding-right: var(--scrollbar-space);
+      &._scroll-el-hover {
+        padding-right: 0;
+      }
+      @supports (-moz-appearance: none) {
+        & {
+          padding-right: 0;
+        }
+      }
+    } @else if ($direction == 'horizontal') {
+      padding-bottom: var(--scrollbar-space);
+      &._scroll-el-hover {
+        padding-bottom: 0;
+      }
+      @supports (-moz-appearance: none) {
+        & {
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    &._scroll-el-hover::-webkit-scrollbar {
+      width: var(--scrollbar-wider);
+      height: var(--scrollbar-wider);
+    }
+
+    &._scroll-el-hover .notifications-container {
+      right: calc(10px - calc(var(--scrollbar-size) * calc(var(--scrollbar-multiplier) - 1)));
+    }
+  }
+}
+
+// заполнит пустое пространство, когда скроллбар не увеличен
+@mixin scrollbarAfter($color: var(--white), $direction: 'vertical') {
+  @media (pointer: fine) {
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 100;
+      display: block;
+      background-color: $color;
+
+      @if ($direction == 'vertical') {
+        top: 0;
+        width: var(--scrollbar-space);
+      }
+      @if ($direction == 'horizontal') {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: var(--scrollbar-space);
+      }
+
+      @supports (-moz-appearance: none) {
+        & {
+          display: none;
+        }
+      }
+    }
+    &._scroll-el-hover::after {
+      display: none;
+    }
+  }
+}
+
+@mixin noScrollbar($noPaddingRight: true, $noMarginBottom: true) {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &,
+  &:hover {
+    @if ($noPaddingRight) {
+      padding-right: 0;
+    }
+    @if ($noMarginBottom) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@mixin scrollbarCustom() {
+  scrollbar-color: #c4fcfd;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 16px;
+    background-color: #6b85a3;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c4fcfd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@mixin scrollbarCustomThin() {
+  scrollbar-color: #c4fcfd;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+
+    background-color: #6b85a3;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c4fcfd;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@mixin maxLines($count) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $count;
+  -webkit-box-orient: vertical;
+  line-clamp: $count;
+}
