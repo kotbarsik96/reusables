@@ -20,7 +20,7 @@ import ConfirmationDialogsList from '@/components/_UI/Dialog/Confirmation/Confir
 @import '@/css/base/general.scss';
 @import '@/css/base/null.scss';
 @import '@/css/variables/colors.scss';
-@import '@/css/variables/fonts-variables.scss';
+@import '@/css/variables/fonts.scss';
 @import '@/css/variables/scrollbar.scss';
 @import '@/css/variables/sizes.scss';
 @import '@/css/variables/transitions.scss';

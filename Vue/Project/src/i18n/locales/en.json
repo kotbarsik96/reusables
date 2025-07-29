@@ -1,0 +1,24 @@
+{
+  "general": {
+    "picture": "Picture",
+    "accept": "Accept",
+    "next": "Next",
+    "email": "E-mail"
+  },
+  "auth": {
+    "Create an account to generate content": "Create an account to generate content",
+    "Sign up": "Sign up",
+    "By logging in and using DeepFans, you agree to our Terms of Service and Privacy Policy, and confirm that you are at least 18 years old.": "By logging in and using DeepFans, you agree to our Terms of Service and Privacy Policy, and confirm that you are at least 18 years old."
+  },
+  "onboarding": {
+    "step1_title": "Generate content with any girls",
+    "step1_descr": "Just add a face – AI will do  the rest ",
+    "step2_title": "Manage multiple  profiles",
+    "step2_descr": "You can generate content for multiple models at once",
+    "step3_title": "Are you 18 or older?",
+    "step3_descr": "This application may only be used by adults.",
+    "step3_btn1": "I am 18 or older",
+    "step3_btn2": "I am not 18 yet",
+    "accept": "Accept"
+  }
+}

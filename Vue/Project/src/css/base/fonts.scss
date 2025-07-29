@@ -6,9 +6,9 @@
   font-stretch: 25% 100%;
   font-display: swap;
   src:
-    url('@/assets/fonts/Inter/Inter-BasicLatin.woff2') format('woff2-variations'),
-    url('@/assets/fonts/Inter/Inter-BasicLatin.woff') format('woff-variations'),
-    url('@/assets/fonts/Inter/Inter-BasicLatin.ttf') format('truetype-variations');
+    url('assets/fonts/Inter/Inter-BasicLatin.woff2') format('woff2-variations'),
+    url('assets/fonts/Inter/Inter-BasicLatin.woff') format('woff-variations'),
+    url('assets/fonts/Inter/Inter-BasicLatin.ttf') format('truetype-variations');
   unicode-range: U+0000-007F;
 }
 
@@ -19,9 +19,9 @@
   font-stretch: 25% 100%;
   font-display: swap;
   src:
-    url('@/assets/fonts/Inter/Inter-cyrillic.woff2') format('woff2-variations'),
-    url('@/assets/fonts/Inter/Inter-cyrillic.woff') format('woff-variations'),
-    url('@/assets/fonts/Inter/Inter-cyrillic.ttf') format('truetype-variations');
+    url('assets/fonts/Inter/Inter-cyrillic.woff2') format('woff2-variations'),
+    url('assets/fonts/Inter/Inter-cyrillic.woff') format('woff-variations'),
+    url('assets/fonts/Inter/Inter-cyrillic.ttf') format('truetype-variations');
   unicode-range: U+0401-0451;
 }
 
@@ -32,80 +32,26 @@
   font-stretch: 25% 100%;
   font-display: swap;
   src:
-    url('@/assets/fonts/Inter/Inter-ExtendedLatin.woff2') format('woff2-variations'),
-    url('@/assets/fonts/Inter/Inter-ExtendedLatin.woff') format('woff-variations'),
-    url('@/assets/fonts/Inter/Inter-ExtendedLatin.ttf') format('truetype-variations');
+    url('assets/fonts/Inter/Inter-ExtendedLatin.woff2') format('woff2-variations'),
+    url('assets/fonts/Inter/Inter-ExtendedLatin.woff') format('woff-variations'),
+    url('assets/fonts/Inter/Inter-ExtendedLatin.ttf') format('truetype-variations');
   unicode-range: U+0C00-02B9;
 }
 
-// Inter Fallback: Arial 400
+// Inter Fallback: Helvetica 400
 @font-face {
   font-family: 'Inter Fallback: Helvetica';
   src: local('Helvetica');
   ascent-override: 93%;
   descent-override: 30%;
-  size-adjust: 96.4%;
+  size-adjust: 105.5%;
 }
 
-// Inter Fallback: Helvetica 400
+// Inter Fallback: Arial 400
 @font-face {
   font-family: 'Inter Fallback: Arial';
   src: local('Arial'), local('ArialMT');
   ascent-override: 93%;
   descent-override: 30%;
-  size-adjust: 99.6%;
-}
-
-// Inter Fallback: Arial 500
-@font-face {
-  font-family: 'Inter Fallback: Helvetica 500';
-  src: local('Helvetica');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 98.4%;
-}
-
-// Inter Fallback: Helvetica 500
-@font-face {
-  font-family: 'Inter Fallback: Arial 500';
-  src: local('Arial'), local('ArialMT');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 101.5%;
-}
-
-// Inter Fallback: Arial 600
-@font-face {
-  font-family: 'Inter Fallback: Helvetica 600';
-  src: local('Helvetica');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 100.1%;
-}
-
-// Inter Fallback: Helvetica 600
-@font-face {
-  font-family: 'Inter Fallback: Arial 600';
-  src: local('Arial'), local('ArialMT');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 103.4%;
-}
-
-// Inter Fallback: Arial 700
-@font-face {
-  font-family: 'Inter Fallback: Helvetica 700';
-  src: local('Helvetica');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 102%;
-}
-
-// Inter Fallback: Helvetica 700
-@font-face {
-  font-family: 'Inter Fallback: Arial 700';
-  src: local('Arial'), local('ArialMT');
-  ascent-override: 93%;
-  descent-override: 30%;
-  size-adjust: 105.4%;
+  size-adjust: 105.7%;
 }

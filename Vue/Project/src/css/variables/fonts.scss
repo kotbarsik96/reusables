@@ -1,0 +1,62 @@
+@use '/css/mixins/mixins.scss';
+
+:root {
+  --font-inter: 'Inter', 'Inter Fallback: Arial', Helvetica, Arial, sans-serif;
+
+  /* font-sizes */
+  // titles
+  --text-h1: 700 2rem/130% var(--font-inter);
+  --text-h2: 700 1.5rem/130% var(--font-inter);
+  --text-h3: 700 1.125rem/130% var(--font-inter);
+  --text-h4: 500 1rem/130% var(--font-inter);
+
+  // description
+  --text-descr-big: 700 1.125rem/130% var(--font-inter);
+  --text-descr-medium: 600 1rem/130% var(--font-inter);
+  --text-descr-medium-2: 700 1rem/130% var(--font-inter);
+  --text-descr-small: 500 1rem/130% var(--font-inter);
+  --text-descr-small-2: 700 0.9rem/130% var(--font-inter);
+  --text-descr-small-ultra: 400 0.9rem/130% var(--font-inter);
+
+  // paragraph
+  --text-p1_big: 400 1rem/135% var(--font-inter);
+  --text-p1: 400 1rem/140% var(--font-inter);
+  --text-p1_bold: 700 1rem/140% var(--font-inter);
+  --text-p_quote: italic 600 1rem/140% var(--font-inter);
+  --text-p2: 400 0.9rem/140% var(--font-inter);
+
+  // buttons
+  --text-button-big: 600 1rem/130% var(--font-inter);
+  --text-button-medium: 600 1rem/130% var(--font-inter);
+  --text-button-small: 600 0.9rem/130% var(--font-inter);
+  --text-button-ultra-small: 600 0.9rem/130% var(--font-inter);
+
+  // inputs
+  --text-input-inside-mega: 600 1.5rem/130% var(--font-inter);
+  --text-input-inside-big: 400 1.125rem/130% var(--font-inter);
+  --text-input-inside-medium: 400 1rem/130% var(--font-inter);
+  --text-input-inside-small: 400 1rem/130% var(--font-inter);
+
+  --text-input-label-big: 600 1rem/130% var(--font-inter);
+  --text-input-label-medium: 600 1rem/130% var(--font-inter);
+  --text-input-label-small: 600 0.9rem/130% var(--font-inter);
+
+  // links
+  --text-link-big: 500 1rem/130% var(--font-inter);
+  --text-link-medium: 400 1rem/130% var(--font-inter);
+  --text-link-small: 400 0.9rem/130% var(--font-inter);
+
+  @include mixins.adaptive(phone-big-min) {
+    // titles
+    --text-h1: 700 3rem/130% var(--font-inter);
+    --text-h2: 700 2rem/130% var(--font-inter);
+    --text-h3: 700 1.5rem/130% var(--font-inter);
+    --text-h4: 500 1.125rem/130% var(--font-inter);
+
+    // buttons
+    --text-button-big: 700 1.75rem/130% var(--font-inter);
+    --text-button-medium: 700 1.375rem/130% var(--font-inter);
+    --text-button-small: 600 1rem/130% var(--font-inter);
+    --text-button-ultra-small: 600 0.9rem/130% var(--font-inter);
+  }
+}
