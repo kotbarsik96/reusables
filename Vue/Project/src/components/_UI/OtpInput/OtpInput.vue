@@ -24,6 +24,7 @@ const props = withDefaults(
     nullSymbol?: string
     pattern?: RegExp
     isCorrect: boolean | undefined
+    disabled?: boolean
   }>(),
   {
     nullSymbol: '_',
@@ -53,6 +54,7 @@ const codeToString = computed(() => {
 const classes = computed(() => ({
   '--complete': props.isCorrect === true,
   '--incorrect': props.isCorrect === false,
+  '--disabled': props.disabled,
 }))
 
 watch(code, () => {
@@ -65,6 +67,8 @@ watch(code, () => {
 })
 
 function onKeydown(pos: number, event: KeyboardEvent) {
+  if (props.disabled) return
+
   const insertedOnPosition = props.pattern.test(code.value[pos])
 
   switch (event.key.toLowerCase()) {
@@ -137,5 +141,11 @@ function onFocus(pos: number, event: FocusEvent) {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  transition: var(--general-transition);
+
+  &.--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 </style>
